@@ -23,7 +23,15 @@ public class DemoApplication {
         SpringApplication.run(DemoApplication.class, args);
     }
 
-
+    @Bean
+    ApplicationRunner init(UserRepository repository) {
+        return args -> {
+            Stream.of("AA", "BB", "CC", "DD").forEach(name -> {
+                repository.save(new User(name));
+            });
+            repository.findAll().forEach(System.out::println);
+        };
+    }
 }
 
 @Entity
@@ -66,5 +74,9 @@ class User {
     }
 }
 
+@RepositoryRestResource
+interface UserRepository extends JpaRepository<User, Long> {
+}
 
 
+}
