@@ -78,4 +78,25 @@ class User {
 interface UserRepository extends JpaRepository<User, Long> {
 }
 
+@RestController
+class UsersController {
+    private com.example.demo.UserRepository repository;
 
+    public UsersController(com.example.demo.UserRepository repository) {
+        this.repository = repository;
+    }
+
+    @GetMapping("/Users")
+    public Collection<com.example.demo.User> Users() {
+        return repository.findAll().stream()
+                .filter(this::isUser)
+                .collect(Collectors.toList());
+    }
+
+    private boolean isUser(com.example.demo.User user) {
+        return !user.getName().equals("AA") &&
+                !user.getName().equals("BB") &&
+                !user.getName().equals("CC") &&
+                !user.getName().equals("DD");
+    }
+}
