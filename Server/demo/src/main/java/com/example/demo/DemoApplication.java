@@ -34,7 +34,7 @@ public class DemoApplication {
     @Bean
     ApplicationRunner init(UserRepository repository) {
         return args -> {
-            Stream.of("Aa", "Bb", "Cc", "Dd", "Ee","GG","MM").forEach(name -> {
+            Stream.of("Aa", "AB", "Cc", "Dd", "Ee").forEach(name -> {
                 repository.save(new User(name));
             });
             repository.findAll().forEach(System.out::println);
@@ -66,12 +66,18 @@ class User {
 
     @NonNull
     private String name;
+    private String lastname;
+    private int yearsExperience;
 
     public User() {
     }
 
     public User(String name) {
         this.name = name;
+    }
+    public void UserLastname(String lastname) {
+
+        this.lastname = lastname;
     }
 
     public Long getId() {
@@ -86,15 +92,35 @@ class User {
         return name;
     }
 
+    public String getLastName() {
+        return lastname;
+    }
+
+    public String setLastName() {
+        return lastname;
+    }
+
+    public int getYearsExperience() {
+        return yearsExperience;
+    }
+
+    public int setYearsExperience() {
+        return yearsExperience;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
-
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", lastname='" + lastname + '\''+
+                ", years Experience='" + yearsExperience + '\''+
                 '}';
     }
 }
