@@ -1,13 +1,12 @@
+package com.example.demo.controller;
 
-
-import java.util.concurrent.atomic.AtomicLong;
-
+import com.example.demo.bean.Greeting;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.bean.Greeting;
+import java.util.concurrent.atomic.AtomicLong;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
