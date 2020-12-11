@@ -4,17 +4,23 @@ import lombok.NonNull;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.Ordered;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -33,6 +39,20 @@ public class DemoApplication {
             });
             repository.findAll().forEach(System.out::println);
         };
+    }
+
+    @Bean
+    public FilterRegistrationBean<CorsFilter> simpleCorsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
+        config.setAllowedMethods(Collections.singletonList("*"));
+        config.setAllowedHeaders(Collections.singletonList("*"));
+        source.registerCorsConfiguration("/**", config);
+        FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return bean;
     }
 
 }
@@ -80,19 +100,20 @@ class User {
 }
 
 @RepositoryRestResource
+@CrossOrigin(origins = "http://localhost:4200")
 interface UserRepository extends JpaRepository<User, Long> {
 }
 
 @RestController
-class CoolCarController {
+class UsersController {
     private UserRepository repository;
 
-    public CoolCarController(UserRepository repository) {
+    public UsersController(UserRepository repository) {
         this.repository = repository;
     }
 
     @GetMapping("/Users")
-    @CrossOrigin
+    @CrossOrigin(origins = "http://localhost:4200")
     public Collection<User> Users() {
         return repository.findAll().stream()
                 .filter(this::isUser)
