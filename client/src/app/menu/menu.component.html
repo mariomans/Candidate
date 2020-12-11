@@ -1,0 +1,10 @@
+<header>
+    <mat-toolbar color="primary">
+        <ul class="navbar-nav navbar-collapse justify-content-end">
+            <a *ngIf="!isLoggedIn" class="nav-link" href="/login">Login</a>
+            <a *ngIf="isLoggedIn" class="nav-link" href="/logout" (click)=handleLogout()>Logout</a>
+
+        </ul>
+    </mat-toolbar>
+
+</header>
