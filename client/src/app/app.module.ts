@@ -8,11 +8,13 @@ import { ComponentComponent } from './component/component.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatButton, MatButtonModule, MatCardModule, MatInputModule, MatListModule, MatToolbarModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
+import { UserEditComponent } from './user-edit/user-edit.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ComponentComponent
+    ComponentComponent,
+    UserEditComponent
   ],
   imports: [
     BrowserModule,
